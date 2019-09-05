@@ -68,7 +68,6 @@ public class CalendarQuickstart {
                 .setApplicationName(APPLICATION_NAME)
                 .build();
 
-        // List the next 10 events from the primary calendar.
         DateTime now = new DateTime(System.currentTimeMillis());
         DateTime oneYearFromNow = yearsFromNow(1);
 
@@ -80,12 +79,12 @@ public class CalendarQuickstart {
                 .execute();
 
 
-        List<Event> items = events.getItems();
-        if (items.isEmpty()) {
-            System.out.println("No upcoming events found.");
+        List<Event> holidays = events.getItems();
+        if (holidays.isEmpty()) {
+            System.out.println("No upcoming holidays found.");
         } else {
-            System.out.println("Upcoming events");
-            for (Event event : items) {
+            System.out.println("Upcoming holidays");
+            for (Event event : holidays) {
                 DateTime start = event.getStart().getDateTime();
                 if (start == null) {
                     start = event.getStart().getDate();
