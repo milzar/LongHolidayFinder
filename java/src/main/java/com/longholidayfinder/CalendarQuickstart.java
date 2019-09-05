@@ -38,6 +38,7 @@ public class CalendarQuickstart {
 
     /**
      * Creates an authorized Credential object.
+     *
      * @param HTTP_TRANSPORT The network HTTP Transport.
      * @return An authorized Credential object.
      * @throws IOException If the credentials.json file cannot be found.
@@ -69,12 +70,16 @@ public class CalendarQuickstart {
 
         // List the next 10 events from the primary calendar.
         DateTime now = new DateTime(System.currentTimeMillis());
-        Events events = service.events().list("primary")
-                .setMaxResults(10)
+        DateTime oneYearFromNow = yearsFromNow(1);
+
+        Events events = service.events().list("en.indian#holiday@group.v.calendar.google.com")
                 .setTimeMin(now)
+                .setTimeMax(oneYearFromNow)
                 .setOrderBy("startTime")
                 .setSingleEvents(true)
                 .execute();
+
+
         List<Event> items = events.getItems();
         if (items.isEmpty()) {
             System.out.println("No upcoming events found.");
@@ -88,5 +93,9 @@ public class CalendarQuickstart {
                 System.out.printf("%s (%s)\n", event.getSummary(), start);
             }
         }
+    }
+
+    private static DateTime yearsFromNow(int years) {
+        return new DateTime(System.currentTimeMillis() + years * (31536L * 1000000));
     }
 }
