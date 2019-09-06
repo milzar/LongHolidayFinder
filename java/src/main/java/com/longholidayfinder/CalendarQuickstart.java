@@ -83,15 +83,14 @@ public class CalendarQuickstart {
         List<Event> holidays = events.getItems();
         if (holidays.isEmpty()) {
             System.out.println("No upcoming holidays found.");
-        } else {
+        }
+        else{
             System.out.println("Upcoming holidays");
             for (Event event : holidays) {
-                DateTime start = event.getStart().getDateTime();
-                if (start == null) {
-                    start = event.getStart().getDate();
-                }
+                DateTime eventStartDate = event.getStart().getDate();
+
                 if (isNextToWeekend(event)) {
-                    System.out.printf("%s (%s)\n", event.getSummary(), start);
+                    System.out.printf("%s (%s)\n", event.getSummary(), eventStartDate);
                 }
             }
         }
