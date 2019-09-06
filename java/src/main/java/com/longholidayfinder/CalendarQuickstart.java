@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class CalendarQuickstart {
@@ -89,12 +90,29 @@ public class CalendarQuickstart {
                 if (start == null) {
                     start = event.getStart().getDate();
                 }
-                System.out.printf("%s (%s)\n", event.getSummary(), start);
+                if (isNextToWeekend(event)) {
+                    System.out.printf("%s (%s)\n", event.getSummary(), start);
+                }
             }
         }
     }
 
     private static DateTime yearsFromNow(int years) {
         return new DateTime(System.currentTimeMillis() + years * (31536L * 1000000));
+    }
+
+    private static boolean isNextToWeekend(Event holiday) {
+        DateTime holidayDate = holiday.getStart().getDate();
+
+        Date holidayDateInJavaFormat = new Date(holidayDate.getValue());
+
+        java.util.Calendar someCalendar = java.util.Calendar.getInstance();
+        someCalendar.setTime(holidayDateInJavaFormat);
+
+        if (someCalendar.get(java.util.Calendar.DAY_OF_WEEK) == java.util.Calendar.FRIDAY ||
+                someCalendar.get(java.util.Calendar.DAY_OF_WEEK) == java.util.Calendar.MONDAY) {
+            return true;
+        }
+        return false;
     }
 }
