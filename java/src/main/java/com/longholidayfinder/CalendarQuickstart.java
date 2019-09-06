@@ -109,10 +109,7 @@ public class CalendarQuickstart {
         java.util.Calendar someCalendar = java.util.Calendar.getInstance();
         someCalendar.setTime(holidayDateInJavaFormat);
 
-        if (someCalendar.get(java.util.Calendar.DAY_OF_WEEK) == java.util.Calendar.FRIDAY ||
-                someCalendar.get(java.util.Calendar.DAY_OF_WEEK) == java.util.Calendar.MONDAY) {
-            return true;
-        }
-        return false;
+        return someCalendar.get(java.util.Calendar.DAY_OF_WEEK) == java.util.Calendar.FRIDAY ||
+                someCalendar.get(java.util.Calendar.DAY_OF_WEEK) == java.util.Calendar.MONDAY;
     }
 }
