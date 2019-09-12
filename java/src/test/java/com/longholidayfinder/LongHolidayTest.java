@@ -1,23 +1,24 @@
 package com.longholidayfinder;
 
+import com.google.api.client.util.DateTime;
 import org.junit.jupiter.api.Test;
-
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class LongHolidayTest {
 
+    private static final int SECONDS_IN_A_DAY = 86400000;
+
     @Test
     void expect1WhenStartDateAndEndDateAreTheSame(){
-        LongHoliday some = new LongHoliday(new Date(System.currentTimeMillis()) ,new Date(System.currentTimeMillis()) );
+        LongHoliday some = new LongHoliday(new DateTime(System.currentTimeMillis()) ,new DateTime(System.currentTimeMillis()) );
         assertEquals(some.duration(),1);
     }
 
 
     @Test
     void expect2WhenStartDateAndEndDateAreConsecutive(){
-        LongHoliday some = new LongHoliday(new Date(System.currentTimeMillis()) ,new Date(System.currentTimeMillis() + 86400000 ) );
+        LongHoliday some = new LongHoliday(new DateTime(System.currentTimeMillis()) ,new DateTime(System.currentTimeMillis() + SECONDS_IN_A_DAY) );
         assertEquals(some.duration(),2);
     }
 }
