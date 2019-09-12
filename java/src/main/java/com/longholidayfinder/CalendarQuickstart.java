@@ -89,7 +89,7 @@ public class CalendarQuickstart {
             for (Event event : holidays) {
                 DateTime eventStartDate = event.getStart().getDate();
 
-                if (isNextToWeekend(event)) {
+                if (isFridayOrMonday(event)) {
                     System.out.printf("%s (%s)\n", event.getSummary(), eventStartDate);
                 }
             }
@@ -100,7 +100,7 @@ public class CalendarQuickstart {
         return new DateTime(System.currentTimeMillis() + years * (31536L * 1000000));
     }
 
-    private static boolean isNextToWeekend(Event holiday) {
+    private static boolean isFridayOrMonday(Event holiday) {
         DateTime holidayDate = holiday.getStart().getDate();
 
         Date holidayDateInJavaFormat = new Date(holidayDate.getValue());
