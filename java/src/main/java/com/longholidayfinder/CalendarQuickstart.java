@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -62,6 +63,9 @@ public class CalendarQuickstart {
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 
+
+    private List<LongHoliday> longHolidays = new ArrayList<>();
+
     public static void main(String... args) throws IOException, GeneralSecurityException {
         // Build a new authorized API client service.
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
@@ -89,7 +93,7 @@ public class CalendarQuickstart {
             for (Event event : holidays) {
                 DateTime eventStartDate = event.getStart().getDate();
 
-                if (isFridayOrMonday(event)) {
+                if (isFridayOrMonday(event) || isOneDayAwayFromWeekend(event)) {
                     System.out.printf("%s (%s)\n", event.getSummary(), eventStartDate);
                 }
             }
@@ -101,14 +105,26 @@ public class CalendarQuickstart {
     }
 
     private static boolean isFridayOrMonday(Event holiday) {
+        java.util.Calendar someCalendar = getCalendarWithDateAs(holiday);
+
+        return someCalendar.get(java.util.Calendar.DAY_OF_WEEK) == java.util.Calendar.FRIDAY ||
+                someCalendar.get(java.util.Calendar.DAY_OF_WEEK) == java.util.Calendar.MONDAY;
+    }
+
+    private static boolean isOneDayAwayFromWeekend(Event holiday){
+        java.util.Calendar someCalendar = getCalendarWithDateAs(holiday);
+
+        return someCalendar.get(java.util.Calendar.DAY_OF_WEEK) == java.util.Calendar.THURSDAY ||
+                someCalendar.get(java.util.Calendar.DAY_OF_WEEK) == java.util.Calendar.TUESDAY;
+    }
+
+    private static java.util.Calendar getCalendarWithDateAs(Event holiday) {
         DateTime holidayDate = holiday.getStart().getDate();
 
         Date holidayDateInJavaFormat = new Date(holidayDate.getValue());
 
         java.util.Calendar someCalendar = java.util.Calendar.getInstance();
         someCalendar.setTime(holidayDateInJavaFormat);
-
-        return someCalendar.get(java.util.Calendar.DAY_OF_WEEK) == java.util.Calendar.FRIDAY ||
-                someCalendar.get(java.util.Calendar.DAY_OF_WEEK) == java.util.Calendar.MONDAY;
+        return someCalendar;
     }
 }
