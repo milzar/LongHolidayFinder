@@ -23,8 +23,9 @@ import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
+
+import static com.longholidayfinder.DateCalculation.*;
 
 public class CalendarQuickstart {
     private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart";
@@ -64,8 +65,6 @@ public class CalendarQuickstart {
     }
 
 
-    private List<LongHoliday> longHolidays = new ArrayList<>();
-
     public static void main(String... args) throws IOException, GeneralSecurityException {
         // Build a new authorized API client service.
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
@@ -85,46 +84,33 @@ public class CalendarQuickstart {
 
 
         List<Event> holidays = events.getItems();
+        List<LongHoliday> longHolidays = new ArrayList<>();
+
         if (holidays.isEmpty()) {
             System.out.println("No upcoming holidays found.");
-        }
-        else{
+        } else {
             System.out.println("Upcoming holidays");
             for (Event event : holidays) {
                 DateTime eventStartDate = event.getStart().getDate();
 
                 if (isFridayOrMonday(event) || isOneDayAwayFromWeekend(event)) {
-                    System.out.printf("%s (%s)\n", event.getSummary(), eventStartDate);
+
+                    if (isFriday(event)) {
+                        LongHoliday some = new LongHoliday(eventStartDate, daysFromDate(2, eventStartDate));
+                        longHolidays.add(some);
+                    }
+
+                    if(isMonday(event)){
+                        LongHoliday some = new LongHoliday( daysFromDate(-2,eventStartDate)  ,eventStartDate);
+                        longHolidays.add(some);
+                    }
+//                    System.out.printf("%s (%s)\n", event.getSummary(), eventStartDate);
                 }
             }
         }
-    }
 
-    private static DateTime yearsFromNow(int years) {
-        return new DateTime(System.currentTimeMillis() + years * (31536L * 1000000));
-    }
-
-    private static boolean isFridayOrMonday(Event holiday) {
-        java.util.Calendar someCalendar = getCalendarWithDateAs(holiday);
-
-        return someCalendar.get(java.util.Calendar.DAY_OF_WEEK) == java.util.Calendar.FRIDAY ||
-                someCalendar.get(java.util.Calendar.DAY_OF_WEEK) == java.util.Calendar.MONDAY;
-    }
-
-    private static boolean isOneDayAwayFromWeekend(Event holiday){
-        java.util.Calendar someCalendar = getCalendarWithDateAs(holiday);
-
-        return someCalendar.get(java.util.Calendar.DAY_OF_WEEK) == java.util.Calendar.THURSDAY ||
-                someCalendar.get(java.util.Calendar.DAY_OF_WEEK) == java.util.Calendar.TUESDAY;
-    }
-
-    private static java.util.Calendar getCalendarWithDateAs(Event holiday) {
-        DateTime holidayDate = holiday.getStart().getDate();
-
-        Date holidayDateInJavaFormat = new Date(holidayDate.getValue());
-
-        java.util.Calendar someCalendar = java.util.Calendar.getInstance();
-        someCalendar.setTime(holidayDateInJavaFormat);
-        return someCalendar;
+        for (LongHoliday some : longHolidays) {
+            System.out.println(some);
+        }
     }
 }
