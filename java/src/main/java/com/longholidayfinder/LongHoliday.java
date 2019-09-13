@@ -31,7 +31,7 @@ public class LongHoliday {
             holidayList.append(String.format("%s ", holiday));
         }
 
-        return String.format("%-25s\t%-15s\t%-15s\tfor %d days", holidayList.toString(), trimTime(startDate), trimTime(endDate), this.duration());
+        return String.format("%-40s\t%-15s\t%-15s\tfor %d days", holidayList.toString(), trimTime(startDate), trimTime(endDate), this.duration());
     }
 
     private String trimTime(DateTime some) {
