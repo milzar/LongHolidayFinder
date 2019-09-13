@@ -2,6 +2,8 @@ package com.longholidayfinder;
 
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.Event;
+
+import java.util.Calendar;
 import java.util.Date;
 
 class DateCalculation {
@@ -22,6 +24,18 @@ class DateCalculation {
         java.util.Calendar someCalendar = getCalendarWithDateAs(holiday);
         return someCalendar.get(java.util.Calendar.DAY_OF_WEEK) == java.util.Calendar.MONDAY;
     }
+
+    static boolean onAThursday(Event holiday) {
+        java.util.Calendar someCalendar = getCalendarWithDateAs(holiday);
+        return someCalendar.get(java.util.Calendar.DAY_OF_WEEK) == Calendar.THURSDAY;
+    }
+
+
+    static boolean onATuesday(Event holiday) {
+        java.util.Calendar someCalendar = getCalendarWithDateAs(holiday);
+        return someCalendar.get(java.util.Calendar.DAY_OF_WEEK) == Calendar.TUESDAY;
+    }
+
 
     static boolean isFridayOrMonday(Event holiday) {
         java.util.Calendar someCalendar = getCalendarWithDateAs(holiday);
