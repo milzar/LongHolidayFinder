@@ -13,12 +13,12 @@ class DateCalculation {
         return new DateTime(some.getValue() + days * (1000 * 60 * 60 * 24));
     }
 
-    static boolean isFriday(Event holiday) {
+    static boolean onAFriday(Event holiday) {
         java.util.Calendar someCalendar = getCalendarWithDateAs(holiday);
         return someCalendar.get(java.util.Calendar.DAY_OF_WEEK) == java.util.Calendar.FRIDAY;
     }
 
-    static boolean isMonday(Event holiday) {
+    static boolean onAMonday(Event holiday) {
         java.util.Calendar someCalendar = getCalendarWithDateAs(holiday);
         return someCalendar.get(java.util.Calendar.DAY_OF_WEEK) == java.util.Calendar.MONDAY;
     }
