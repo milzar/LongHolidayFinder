@@ -1,6 +1,8 @@
 package com.longholidayfinder;
 
 import com.google.api.client.util.DateTime;
+import com.google.api.services.calendar.model.Event;
+import com.google.api.services.calendar.model.EventDateTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,18 +26,33 @@ public class LongHoliday {
         this.holidays.add(holiday);
     }
 
+    public Event getEvent() {
+        Event myEvent = new Event();
+        myEvent.setStart(new EventDateTime().setDateTime(this.startDate));
+        myEvent.setEnd(new EventDateTime().setDateTime(this.endDate));
+        myEvent.setSummary(this.holidaysList());
+
+        return myEvent;
+    }
+
     @Override
     public String toString() {
+        String holidayList = holidaysList();
+
+        return String.format("%-40s\t%-15s\t%-15s\tfor %d days", holidayList, trimTime(startDate), trimTime(endDate), this.duration());
+    }
+
+    private String holidaysList() {
         StringBuilder holidayList = new StringBuilder();
         for (String holiday : this.holidays) {
             holidayList.append(String.format("%s ", holiday));
         }
-
-        return String.format("%-40s\t%-15s\t%-15s\tfor %d days", holidayList.toString(), trimTime(startDate), trimTime(endDate), this.duration());
+        return holidayList.toString();
     }
 
     private String trimTime(DateTime some) {
         int endIndex = !some.toString().contains("T") ? some.toString().length() : some.toString().indexOf("T");
         return some.toString().substring(0, endIndex);
     }
+
 }
