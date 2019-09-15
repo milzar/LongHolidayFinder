@@ -37,9 +37,7 @@ public class LongHoliday {
 
     @Override
     public String toString() {
-        String holidayList = holidaysList();
-
-        return String.format("%-40s\t%-15s\t%-15s\tfor %d days", holidayList, trimTime(startDate), trimTime(endDate), this.duration());
+        return String.format("%-40s\t%-15s\t%-15s\tfor %d days", this.holidaysList(), trimTime(startDate), trimTime(endDate), this.duration());
     }
 
     private String holidaysList() {
