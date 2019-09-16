@@ -12,7 +12,7 @@ class DateCalculation {
     }
 
     static DateTime daysAfterDate(int days, DateTime some) {
-        return new DateTime(some.getValue() + days * (1000 * 60 * 60 * 24));
+        return new DateTime(some.getValue() + (long) days * (1000 * 60 * 60 * 24));
     }
 
     static  DateTime daysBeforeDate(int days, DateTime some){
