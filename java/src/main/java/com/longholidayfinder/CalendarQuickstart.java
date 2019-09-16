@@ -96,26 +96,26 @@ public class CalendarQuickstart {
                 if (isFridayOrMonday(event)) {
 
                     if (onAFriday(event)) {
-                        LongHoliday some = new LongHoliday(eventStartDate, daysFromDate(2, eventStartDate));
+                        LongHoliday some = new LongHoliday(eventStartDate, daysAfterDate(2, eventStartDate));
                         some.addHoliday(event.getSummary());
                         longHolidays.add(some);
                     }
 
                     if (onAMonday(event)) {
-                        LongHoliday some = new LongHoliday(daysFromDate(-2, eventStartDate), eventStartDate);
+                        LongHoliday some = new LongHoliday(daysBeforeDate(2, eventStartDate), eventStartDate);
                         some.addHoliday(event.getSummary());
                         longHolidays.add(some);
                     }
                 } else if (isOneDayAwayFromWeekend(event)) {
 
                     if (onAThursday(event)) {
-                        LongHoliday some = new LongHoliday(eventStartDate, daysFromDate(3, eventStartDate));
+                        LongHoliday some = new LongHoliday(eventStartDate, daysAfterDate(3, eventStartDate));
                         some.addHoliday(event.getSummary());
                         longHolidays.add(some);
                     }
 
                     if (onATuesday(event)) {
-                        LongHoliday some = new LongHoliday(daysFromDate(-3, eventStartDate), eventStartDate);
+                        LongHoliday some = new LongHoliday(daysBeforeDate(3, eventStartDate), eventStartDate);
                         some.addHoliday(event.getSummary());
                         longHolidays.add(some);
                     }
