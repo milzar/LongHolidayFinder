@@ -11,10 +11,13 @@ class DateCalculation {
         return new DateTime(System.currentTimeMillis() + years * (31536L * 1000000));
     }
 
-    static DateTime daysFromDate(int days, DateTime some) {
+    static DateTime daysAfterDate(int days, DateTime some) {
         return new DateTime(some.getValue() + days * (1000 * 60 * 60 * 24));
     }
 
+    static  DateTime daysBeforeDate(int days, DateTime some){
+        return daysAfterDate(-days,some);
+    }
     static boolean onAFriday(Event holiday) {
         java.util.Calendar someCalendar = getCalendarWithDateAs(holiday);
         return someCalendar.get(java.util.Calendar.DAY_OF_WEEK) == java.util.Calendar.FRIDAY;
