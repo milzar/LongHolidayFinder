@@ -39,6 +39,7 @@ public class LongHoliday {
         myEventReminder.setEnd(new EventDateTime().setDateTime(eventReminderDate));
         myEventReminder.setSummary(this.holidaysList());
         myEventReminder.setDescription(this.toString());
+        myEventReminder.setColorId("11");
 
         return myEventReminder;
     }
