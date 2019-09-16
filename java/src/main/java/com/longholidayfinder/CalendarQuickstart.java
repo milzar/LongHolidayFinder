@@ -124,7 +124,10 @@ public class CalendarQuickstart {
         }
 
         for (LongHoliday some : longHolidays) {
-            System.out.println(some);
+            String calendarId = "primary";
+            Event someHoliday = service.events().insert(calendarId, some.getEventReminder()).execute();
+            System.out.printf("Event created: %s\n", someHoliday.getHtmlLink());
+
         }
     }
 }
