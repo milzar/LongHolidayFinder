@@ -7,6 +7,8 @@ import com.google.api.services.calendar.model.EventDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.longholidayfinder.DateCalculation.daysBeforeDate;
+
 public class LongHoliday {
     private DateTime startDate;
     private DateTime endDate;
@@ -26,13 +28,19 @@ public class LongHoliday {
         this.holidays.add(holiday);
     }
 
-    public Event getEvent() {
-        Event myEvent = new Event();
-        myEvent.setStart(new EventDateTime().setDateTime(this.startDate));
-        myEvent.setEnd(new EventDateTime().setDateTime(this.endDate));
-        myEvent.setSummary(this.holidaysList());
+    public Event getEventReminder() {
+        Event myEventReminder = new Event();
 
-        return myEvent;
+
+        DateTime eventReminderDate = daysBeforeDate(115,this.startDate).getValue() < System.currentTimeMillis()?
+                new DateTime(System.currentTimeMillis()) : daysBeforeDate(115,this.startDate) ;
+
+        myEventReminder.setStart(new EventDateTime().setDateTime(eventReminderDate));
+        myEventReminder.setEnd(new EventDateTime().setDateTime(eventReminderDate));
+        myEventReminder.setSummary(this.holidaysList());
+        myEventReminder.setDescription(this.toString());
+
+        return myEventReminder;
     }
 
     @Override
