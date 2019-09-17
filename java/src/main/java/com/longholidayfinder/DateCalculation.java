@@ -8,7 +8,7 @@ import java.util.Date;
 
 class DateCalculation {
     static DateTime yearsFrom(int years, DateTime some) {
-        return new DateTime(some.getValue() + years * (31536L * 1000000));
+        return daysAfterDate(365 * years,some);
     }
 
     static DateTime daysAfterDate(int days, DateTime some) {
