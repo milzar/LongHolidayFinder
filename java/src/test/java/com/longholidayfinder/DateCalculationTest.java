@@ -16,7 +16,7 @@ class DateCalculationTest {
     }
 
     @Test
-    void expectEqualWhenComparingCurrentDateWithDate1YearsFromNow() {
+    void expectNotEqualWhenComparingCurrentDateWithDate1YearsFromNow() {
         DateTime now = new DateTime(System.currentTimeMillis());
 
         assertNotEquals(now, yearsFrom(1,now));
