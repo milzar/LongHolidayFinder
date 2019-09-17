@@ -7,8 +7,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 class DateCalculation {
-    static DateTime yearsFromNow(int years) {
-        return new DateTime(System.currentTimeMillis() + years * (31536L * 1000000));
+    static DateTime yearsFrom(int years, DateTime some) {
+        return new DateTime(some.getValue() + years * (31536L * 1000000));
     }
 
     static DateTime daysAfterDate(int days, DateTime some) {
