@@ -7,6 +7,7 @@ import com.google.api.services.calendar.model.EventDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.longholidayfinder.DateCalculation.daysAfterDate;
 import static com.longholidayfinder.DateCalculation.daysBeforeDate;
 
 public class LongHoliday {
@@ -44,6 +45,12 @@ public class LongHoliday {
         return myEventReminder;
     }
 
+    void extendHoliday(Event that) {
+        if(this.trimTime(daysAfterDate(this.endDate, 1)).equals( this.trimTime(that.getStart().getDate()) )){
+            this.endDate = that.getStart().getDate();
+        }
+    }
+
     @Override
     public String toString() {
         return String.format("%-40s\n%s - %s\nfor %d days", this.holidaysList(), trimTime(startDate), trimTime(endDate), this.duration());
@@ -61,5 +68,4 @@ public class LongHoliday {
         int endIndex = !some.toString().contains("T") ? some.toString().length() : some.toString().indexOf("T");
         return some.toString().substring(0, endIndex);
     }
-
 }
