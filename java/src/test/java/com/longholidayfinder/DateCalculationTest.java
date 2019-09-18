@@ -35,4 +35,28 @@ class DateCalculationTest {
             assertEquals(yearFromNow, yearsFrom(1, now));
         }
     }
+
+    @Nested
+    class DayCalculationTest{
+        @Test
+        void expectEqualWhenComparingSameDate() {
+            DateTime now = new DateTime("1984-04-12T05:30:00.000+05:30");
+
+            assertEquals(now, daysAfterDate(0, now));
+        }
+
+        @Test
+        void expectEqualWhenComparingSameDateAfter1Day() {
+            DateTime now = new DateTime("1984-04-12T05:30:00.000+05:30");
+            DateTime afterOneDay = new DateTime("1984-04-13T05:30:00.000+05:30");
+            assertEquals(afterOneDay, daysAfterDate(1, now));
+        }
+
+        @Test
+        void expectNotEqualWhenComparingADateWithAnotherDate1DayAfter() {
+            DateTime now = new DateTime("1984-04-12T05:30:00.000+05:30");
+
+            assertNotEquals(now, daysAfterDate(1, now));
+        }
+    }
 }
