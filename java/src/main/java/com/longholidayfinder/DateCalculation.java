@@ -7,16 +7,16 @@ import java.util.Calendar;
 import java.util.Date;
 
 class DateCalculation {
-    static DateTime yearsAfter(int years, DateTime some) {
-        return daysAfterDate(365 * years,some);
+    static DateTime yearsAfter(DateTime some, int years) {
+        return daysAfterDate(some,365 * years);
     }
 
-    static DateTime daysAfterDate(int days, DateTime some) {
+    static DateTime daysAfterDate(DateTime some, int days) {
         return new DateTime(some.getValue() + (long) days * (1000 * 60 * 60 * 24));
     }
 
-    static  DateTime daysBeforeDate(int days, DateTime some){
-        return daysAfterDate(-days,some);
+    static  DateTime daysBeforeDate(DateTime some, int days){
+        return daysAfterDate(some,-days);
     }
     static boolean onAFriday(Event holiday) {
         java.util.Calendar someCalendar = getCalendarWithDateAs(holiday);

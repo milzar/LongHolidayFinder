@@ -32,8 +32,8 @@ public class LongHoliday {
         Event myEventReminder = new Event();
 
 
-        DateTime eventReminderDate = daysBeforeDate(115,this.startDate).getValue() < System.currentTimeMillis()?
-                new DateTime(System.currentTimeMillis()) : daysBeforeDate(115,this.startDate) ;
+        DateTime eventReminderDate = daysBeforeDate(this.startDate, 115).getValue() < System.currentTimeMillis()?
+                new DateTime(System.currentTimeMillis()) : daysBeforeDate(this.startDate, 115);
 
         myEventReminder.setStart(new EventDateTime().setDateTime(eventReminderDate));
         myEventReminder.setEnd(new EventDateTime().setDateTime(eventReminderDate));

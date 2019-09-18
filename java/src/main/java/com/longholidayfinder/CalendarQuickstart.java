@@ -73,7 +73,7 @@ public class CalendarQuickstart {
                 .build();
 
         DateTime now = new DateTime(System.currentTimeMillis());
-        DateTime oneYearFromNow = yearsAfter(1,new DateTime(System.currentTimeMillis()));
+        DateTime oneYearFromNow = yearsAfter(new DateTime(System.currentTimeMillis()),1);
 
         Events events = service.events().list("en.indian#holiday@group.v.calendar.google.com")
                 .setTimeMin(now)
@@ -96,26 +96,26 @@ public class CalendarQuickstart {
                 if (isFridayOrMonday(event)) {
 
                     if (onAFriday(event)) {
-                        LongHoliday some = new LongHoliday(eventStartDate, daysAfterDate(2, eventStartDate));
+                        LongHoliday some = new LongHoliday(eventStartDate, daysAfterDate(eventStartDate, 2));
                         some.addHoliday(event.getSummary());
                         longHolidays.add(some);
                     }
 
                     if (onAMonday(event)) {
-                        LongHoliday some = new LongHoliday(daysBeforeDate(2, eventStartDate), eventStartDate);
+                        LongHoliday some = new LongHoliday(daysBeforeDate(eventStartDate, 2), eventStartDate);
                         some.addHoliday(event.getSummary());
                         longHolidays.add(some);
                     }
                 } else if (isOneDayAwayFromWeekend(event)) {
 
                     if (onAThursday(event)) {
-                        LongHoliday some = new LongHoliday(eventStartDate, daysAfterDate(3, eventStartDate));
+                        LongHoliday some = new LongHoliday(eventStartDate, daysAfterDate(eventStartDate, 3));
                         some.addHoliday(event.getSummary());
                         longHolidays.add(some);
                     }
 
                     if (onATuesday(event)) {
-                        LongHoliday some = new LongHoliday(daysBeforeDate(3, eventStartDate), eventStartDate);
+                        LongHoliday some = new LongHoliday(daysBeforeDate(eventStartDate, 3), eventStartDate);
                         some.addHoliday(event.getSummary());
                         longHolidays.add(some);
                     }

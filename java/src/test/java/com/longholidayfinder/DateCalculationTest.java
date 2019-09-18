@@ -17,14 +17,14 @@ class DateCalculationTest {
         void expectEqualWhenComparingCurrentDateWithDate0YearsFromNow() {
             DateTime now = new DateTime(System.currentTimeMillis());
 
-            assertEquals(now, yearsAfter(0, now));
+            assertEquals(now, yearsAfter(now, 0));
         }
 
         @Test
         void expectNotEqualWhenComparingCurrentDateWithDate1YearsFromNow() {
             DateTime now = new DateTime(System.currentTimeMillis());
 
-            assertNotEquals(now, yearsAfter(1, now));
+            assertNotEquals(now, yearsAfter(now, 1));
         }
 
         @Test
@@ -32,7 +32,7 @@ class DateCalculationTest {
             DateTime now = new DateTime("1984-04-12T05:30:00.000+05:30");
             DateTime yearFromNow = new DateTime("1985-04-12T05:30:00.000+05:30");
 
-            assertEquals(yearFromNow, yearsAfter(1, now));
+            assertEquals(yearFromNow, yearsAfter(now, 1));
         }
     }
 
@@ -42,21 +42,21 @@ class DateCalculationTest {
         void expectEqualWhenComparingSameDate() {
             DateTime now = new DateTime("1984-04-12T05:30:00.000+05:30");
 
-            assertEquals(now, daysAfterDate(0, now));
+            assertEquals(now, daysAfterDate(now, 0));
         }
 
         @Test
         void expectEqualWhenComparingSameDateAfter1Day() {
             DateTime now = new DateTime("1984-04-12T05:30:00.000+05:30");
             DateTime afterOneDay = new DateTime("1984-04-13T05:30:00.000+05:30");
-            assertEquals(afterOneDay, daysAfterDate(1, now));
+            assertEquals(afterOneDay, daysAfterDate(now, 1));
         }
 
         @Test
         void expectNotEqualWhenComparingADateWithAnotherDate1DayAfter() {
             DateTime now = new DateTime("1984-04-12T05:30:00.000+05:30");
 
-            assertNotEquals(now, daysAfterDate(1, now));
+            assertNotEquals(now, daysAfterDate(now, 1));
         }
     }
 }
