@@ -1,10 +1,6 @@
 package com.longholidayfinder;
 
 import com.google.api.client.util.DateTime;
-import com.google.api.services.calendar.model.Event;
-
-import java.util.Calendar;
-import java.util.Date;
 
 class DateCalculation {
     static DateTime yearsAfter(DateTime some, int years) {
