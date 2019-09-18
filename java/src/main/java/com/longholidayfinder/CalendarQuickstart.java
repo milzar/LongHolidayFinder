@@ -25,7 +25,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.longholidayfinder.DateCalculation.*;
+import static com.longholidayfinder.DateCalculation.yearsAfter;
+import static com.longholidayfinder.WeekendCalculation.processHoliday;
 
 public class CalendarQuickstart {
     private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart";
@@ -82,7 +83,6 @@ public class CalendarQuickstart {
                 .setSingleEvents(true)
                 .execute();
 
-
         List<Event> holidays = events.getItems();
         List<LongHoliday> longHolidays = new ArrayList<>();
 
@@ -91,34 +91,9 @@ public class CalendarQuickstart {
         } else {
             System.out.println("Upcoming holidays");
             for (Event event : holidays) {
-                DateTime eventStartDate = event.getStart().getDate();
-
-                if (WeekendCalculation.isFridayOrMonday(event)) {
-
-                    if (WeekendCalculation.onAFriday(event)) {
-                        LongHoliday some = new LongHoliday(eventStartDate, daysAfterDate(eventStartDate, 2));
-                        some.addHoliday(event.getSummary());
-                        longHolidays.add(some);
-                    }
-
-                    if (WeekendCalculation.onAMonday(event)) {
-                        LongHoliday some = new LongHoliday(daysBeforeDate(eventStartDate, 2), eventStartDate);
-                        some.addHoliday(event.getSummary());
-                        longHolidays.add(some);
-                    }
-                } else if (WeekendCalculation.isOneDayAwayFromWeekend(event)) {
-
-                    if (WeekendCalculation.onAThursday(event)) {
-                        LongHoliday some = new LongHoliday(eventStartDate, daysAfterDate(eventStartDate, 3));
-                        some.addHoliday(event.getSummary());
-                        longHolidays.add(some);
-                    }
-
-                    if (WeekendCalculation.onATuesday(event)) {
-                        LongHoliday some = new LongHoliday(daysBeforeDate(eventStartDate, 3), eventStartDate);
-                        some.addHoliday(event.getSummary());
-                        longHolidays.add(some);
-                    }
+                LongHoliday myLongHoliday = processHoliday(event);
+                if(myLongHoliday != null){
+                    longHolidays.add(myLongHoliday);
                 }
             }
         }

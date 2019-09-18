@@ -6,40 +6,12 @@ import com.google.api.services.calendar.model.Event;
 import java.util.Calendar;
 import java.util.Date;
 
+import static com.google.common.primitives.Ints.min;
+import static com.longholidayfinder.DateCalculation.daysAfterDate;
+import static com.longholidayfinder.DateCalculation.daysBeforeDate;
+import static java.lang.Math.abs;
+
 class WeekendCalculation {
-    static boolean onAFriday(Event holiday) {
-        java.util.Calendar someCalendar = getCalendarWithDateAs(holiday);
-        return someCalendar.get(java.util.Calendar.DAY_OF_WEEK) == java.util.Calendar.FRIDAY;
-    }
-
-    static boolean onAMonday(Event holiday) {
-        java.util.Calendar someCalendar = getCalendarWithDateAs(holiday);
-        return someCalendar.get(java.util.Calendar.DAY_OF_WEEK) == java.util.Calendar.MONDAY;
-    }
-
-    static boolean onAThursday(Event holiday) {
-        java.util.Calendar someCalendar = getCalendarWithDateAs(holiday);
-        return someCalendar.get(java.util.Calendar.DAY_OF_WEEK) == Calendar.THURSDAY;
-    }
-
-    static boolean onATuesday(Event holiday) {
-        Calendar someCalendar = getCalendarWithDateAs(holiday);
-        return someCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY;
-    }
-
-    static boolean isFridayOrMonday(Event holiday) {
-        Calendar someCalendar = getCalendarWithDateAs(holiday);
-
-        return someCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY ||
-                someCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY;
-    }
-
-    static boolean isOneDayAwayFromWeekend(Event holiday) {
-        Calendar someCalendar = getCalendarWithDateAs(holiday);
-
-        return someCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY ||
-                someCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY;
-    }
 
     private static Calendar getCalendarWithDateAs(Event holiday) {
         DateTime holidayDate = holiday.getStart().getDate();
@@ -49,5 +21,29 @@ class WeekendCalculation {
         Calendar someCalendar = Calendar.getInstance();
         someCalendar.setTime(holidayDateInJavaFormat);
         return someCalendar;
+    }
+
+    static LongHoliday processHoliday(Event holiday) {
+        int dayOfTheWeekOfMyHoliday = getCalendarWithDateAs(holiday).get(Calendar.DAY_OF_WEEK);
+
+        int distanceFromSaturday = dayOfTheWeekOfMyHoliday - Calendar.SATURDAY;
+        int distanceFromSunday = dayOfTheWeekOfMyHoliday - Calendar.SUNDAY;
+
+        int distanceFromWeekend = min(abs(distanceFromSaturday), abs(distanceFromSunday));
+
+        if (distanceFromWeekend > 2 || distanceFromWeekend == 0) {
+            return null;
+        }
+        DateTime holidayStartDate = holiday.getStart().getDate();
+        LongHoliday newHoliday;
+        if (abs(distanceFromSaturday) < abs(distanceFromSunday)) {
+            newHoliday = new LongHoliday(holidayStartDate
+                    , daysAfterDate(holidayStartDate, abs(distanceFromSaturday) +1 ));
+        } else {
+            newHoliday = new LongHoliday(daysBeforeDate(holidayStartDate, distanceFromSunday + 1), holidayStartDate);
+        }
+        newHoliday.addHoliday(holiday.getSummary());
+
+        return newHoliday;
     }
 }
