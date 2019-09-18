@@ -7,7 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 class DateCalculation {
-    static DateTime yearsFrom(int years, DateTime some) {
+    static DateTime yearsAfter(int years, DateTime some) {
         return daysAfterDate(365 * years,some);
     }
 
