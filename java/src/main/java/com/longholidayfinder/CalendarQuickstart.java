@@ -93,28 +93,28 @@ public class CalendarQuickstart {
             for (Event event : holidays) {
                 DateTime eventStartDate = event.getStart().getDate();
 
-                if (isFridayOrMonday(event)) {
+                if (WeekendCalculation.isFridayOrMonday(event)) {
 
-                    if (onAFriday(event)) {
+                    if (WeekendCalculation.onAFriday(event)) {
                         LongHoliday some = new LongHoliday(eventStartDate, daysAfterDate(eventStartDate, 2));
                         some.addHoliday(event.getSummary());
                         longHolidays.add(some);
                     }
 
-                    if (onAMonday(event)) {
+                    if (WeekendCalculation.onAMonday(event)) {
                         LongHoliday some = new LongHoliday(daysBeforeDate(eventStartDate, 2), eventStartDate);
                         some.addHoliday(event.getSummary());
                         longHolidays.add(some);
                     }
-                } else if (isOneDayAwayFromWeekend(event)) {
+                } else if (WeekendCalculation.isOneDayAwayFromWeekend(event)) {
 
-                    if (onAThursday(event)) {
+                    if (WeekendCalculation.onAThursday(event)) {
                         LongHoliday some = new LongHoliday(eventStartDate, daysAfterDate(eventStartDate, 3));
                         some.addHoliday(event.getSummary());
                         longHolidays.add(some);
                     }
 
-                    if (onATuesday(event)) {
+                    if (WeekendCalculation.onATuesday(event)) {
                         LongHoliday some = new LongHoliday(daysBeforeDate(eventStartDate, 3), eventStartDate);
                         some.addHoliday(event.getSummary());
                         longHolidays.add(some);
@@ -127,7 +127,6 @@ public class CalendarQuickstart {
             String calendarId = "primary";
             Event someHoliday = service.events().insert(calendarId, some.getEventReminder()).execute();
             System.out.printf("Event created: %s\n", someHoliday.getHtmlLink());
-
         }
     }
 }
