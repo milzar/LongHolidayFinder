@@ -91,6 +91,11 @@ public class CalendarQuickstart {
         } else {
             System.out.println("Upcoming holidays");
             for (Event event : holidays) {
+                if(!longHolidays.isEmpty()){
+                    LongHoliday mostRecent = longHolidays.get(longHolidays.size()-1);
+                    mostRecent.extendHoliday(event);
+                }
+
                 LongHoliday myLongHoliday = processHoliday(event);
                 if(myLongHoliday != null){
                     longHolidays.add(myLongHoliday);
