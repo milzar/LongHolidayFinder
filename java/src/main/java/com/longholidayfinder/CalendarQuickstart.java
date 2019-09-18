@@ -68,22 +68,12 @@ public class CalendarQuickstart {
 
     public static void main(String... args) throws IOException, GeneralSecurityException {
         // Build a new authorized API client service.
-        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
-                .setApplicationName(APPLICATION_NAME)
-                .build();
+        Calendar myCalendar = getCalendar();
 
         DateTime now = new DateTime(System.currentTimeMillis());
-        DateTime oneYearFromNow = yearsAfter(new DateTime(System.currentTimeMillis()),1);
+        DateTime oneYearFromNow = yearsAfter(now,1);
 
-        Events events = service.events().list("en.indian#holiday@group.v.calendar.google.com")
-                .setTimeMin(now)
-                .setTimeMax(oneYearFromNow)
-                .setOrderBy("startTime")
-                .setSingleEvents(true)
-                .execute();
-
-        List<Event> holidays = events.getItems();
+        List<Event> holidays = getEvents(myCalendar, now, oneYearFromNow);
         List<LongHoliday> longHolidays = new ArrayList<>();
 
         if (holidays.isEmpty()) {
@@ -105,8 +95,25 @@ public class CalendarQuickstart {
 
         for (LongHoliday some : longHolidays) {
             String calendarId = "primary";
-            Event someHoliday = service.events().insert(calendarId, some.getEventReminder()).execute();
+            Event someHoliday = myCalendar.events().insert(calendarId, some.getEventReminder()).execute();
             System.out.printf("Event created: %s\n", someHoliday.getHtmlLink());
         }
+    }
+
+    private static List<Event> getEvents(Calendar service, DateTime now, DateTime oneYearFromNow) throws IOException {
+        return service.events().list("en.indian#holiday@group.v.calendar.google.com")
+                    .setTimeMin(now)
+                    .setTimeMax(oneYearFromNow)
+                    .setOrderBy("startTime")
+                    .setSingleEvents(true)
+                    .execute()
+                    .getItems();
+    }
+
+    private static Calendar getCalendar() throws GeneralSecurityException, IOException {
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        return new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+                .setApplicationName(APPLICATION_NAME)
+                .build();
     }
 }
