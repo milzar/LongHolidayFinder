@@ -9,6 +9,7 @@ import java.util.List;
 
 import static com.longholidayfinder.DateCalculation.daysAfterDate;
 import static com.longholidayfinder.DateCalculation.daysBeforeDate;
+import static com.longholidayfinder.Options.*;
 
 public class LongHoliday {
     private DateTime startDate;
@@ -22,7 +23,7 @@ public class LongHoliday {
     }
 
     public int duration() {
-        return (int) ((this.endDate.getValue() - this.startDate.getValue()) / (1000 * 60 * 60 * 24)) + 1;
+        return (int) ((this.endDate.getValue() - this.startDate.getValue()) / (SECONDS_TO_MILLISECONDS * SECONDS_IN_A_MINUTE * MINUTES_IN_AN_HOUR * HOURS_IN_A_DAY)) + 1;
     }
 
     void addHoliday(String holiday) {
@@ -33,8 +34,8 @@ public class LongHoliday {
         Event myEventReminder = new Event();
 
 
-        DateTime eventReminderDate = daysBeforeDate(this.startDate, 115).getValue() < System.currentTimeMillis()?
-                new DateTime(System.currentTimeMillis()) : daysBeforeDate(this.startDate, 115);
+        DateTime eventReminderDate = daysBeforeDate(this.startDate, NOTIFICATION_PERIOD).getValue() < System.currentTimeMillis()?
+                new DateTime(System.currentTimeMillis()) : daysBeforeDate(this.startDate, NOTIFICATION_PERIOD);
 
         myEventReminder.setStart(new EventDateTime().setDateTime(eventReminderDate));
         myEventReminder.setEnd(new EventDateTime().setDateTime(eventReminderDate));

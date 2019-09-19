@@ -2,13 +2,9 @@ package com.longholidayfinder;
 
 import com.google.api.client.util.DateTime;
 
-class DateCalculation {
+import static com.longholidayfinder.Options.*;
 
-    private static final int DAYS_IN_A_YEAR = 365;
-    private static final int SECONDS_TO_MILLISECONDS = 1000;
-    private static final int SECONDS_IN_A_MINUTE = 60;
-    private static final int MINUTES_IN_AN_HOUR = 60;
-    private static final int HOURS_IN_A_DAY = 24;
+class DateCalculation {
 
     static DateTime yearsAfter(DateTime some, int years) {
         return daysAfterDate(some, DAYS_IN_A_YEAR * years);
